@@ -92,7 +92,7 @@ def cli():
     if args.new_folder:
         main_path = args.new_folder
         CToolString.save_folder_path(args.new_folder)
-    if args.check_folder:
+    if args.check_cw:
         projeto = getcwd()
     else:
         projeto = main_path
