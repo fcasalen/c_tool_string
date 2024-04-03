@@ -24,6 +24,8 @@ class Printer:
             print(msg)
 
 def c_tool_string(string:str, folder_path:str = None, should_print:bool = False):
+    "returns a dictionary with keys as file_paths and value the number of times the string was found in that file"\
+    "\n\nif `folder_path` is None, will use current working folder. if `should_print`, will print the results during execution"
     printer = Printer(should_print)
     CToolStringArgs(
         string=string,
