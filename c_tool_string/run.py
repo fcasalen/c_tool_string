@@ -1,4 +1,4 @@
-from os.path import isfile, exists, dirname, join
+from os.path import isfile, exists, dirname, join, isdir
 from os import getcwd
 from glob import glob
 from re import findall, escape
@@ -22,7 +22,7 @@ class Printer:
         
     def print_red(self, msg:str):
         if self.should_print:
-            CLIPPrinter.red(msg)
+            CLIPPrinter.red(msg, end='')
 
     def printa(self, msg:str):
         if self.should_print:
@@ -76,7 +76,8 @@ def save_folder_path(folder_path:str):
     SaveFolderArgs(folder_path=folder_path)
     if not exists(folder_path):
         raise ValueError(f"folder_path {folder_path} doesn't exist!")
-    folder_path = dirname(folder_path)
+    if not isdir(folder_path):
+        raise ValueError(f'folder_path {folder_path} is not a directory.')
     with open(PROJECTS_FOLDER, 'w', encoding='utf-8') as f:
         f.write(folder_path)
     print(f'New folder set: {folder_path}!')
@@ -103,13 +104,12 @@ def cli():
         projeto = main_path
     if args.string:
         if not projeto:
-            print('no folder was set yet! using current working folder...')
-        else:
-            c_tool_string(
-                string=args.string,
-                folder_path=projeto,
-                should_print=True
-            )
+            CLIPPrinter.red('\nno folder was set yet! using current working folder...')
+        c_tool_string(
+            string=args.string,
+            folder_path=projeto,
+            should_print=True
+        )
 
 if __name__ == '__main__':
     cli()
