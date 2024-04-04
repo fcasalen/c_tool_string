@@ -1,5 +1,5 @@
 from .run import c_tool_string
-from os.path import dirname
+from os.path import dirname, join
 
 folder_path=dirname(__file__)
 
@@ -8,23 +8,23 @@ def test_c_tool():
         string='asd',
         folder_path=folder_path
     ) == {
-        f'{folder_path}/__init__.py': 0,
-        f'{folder_path}/run.py': 0,
-        f'{folder_path}/run_test.py': 1
+        join(folder_path, '__init__.py'): 0,
+        join(folder_path, 'run.py'): 0,
+        join(folder_path, 'run_test.py'): 1
     }
     assert c_tool_string(
         string='path',
         folder_path=folder_path
     ) == {
-        f'{folder_path}/__init__.py': 0,
-        f'{folder_path}/run.py': 34,
-        f'{folder_path}/run_test.py': 18
+        join(folder_path, '__init__.py'): 0,
+        join(folder_path, 'run.py'): 36,
+        join(folder_path, 'run_test.py'): 18
     }
     assert c_tool_string(
         string='.get',
         folder_path=folder_path
     ) == {
-        f'{folder_path}/__init__.py': 0,
-        f'{folder_path}/run.py': 0,
-        f'{folder_path}/run_test.py': 1
+        join(folder_path, '__init__.py'): 0,
+        join(folder_path, 'run.py'): 0,
+        join(folder_path, 'run_test.py'): 1
     }

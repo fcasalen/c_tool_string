@@ -1,11 +1,12 @@
-from os.path import isfile, exists, dirname
+from os.path import isfile, exists, dirname, join
 from os import getcwd
 from glob import glob
 from re import findall, escape
 from argparse import ArgumentParser
 from pydantic import BaseModel
+from cli_pprinter import CLIPPrinter
 
-PROJECTS_FOLDER = f'{dirname(__file__)}/projects_folder.txt'
+PROJECTS_FOLDER = join(dirname(__file__), 'projects_folder.txt')
 
 class CToolStringArgs(BaseModel):
     string:str
@@ -21,7 +22,7 @@ class Printer:
         
     def printa(self, msg:str):
         if self.should_print:
-            print(msg)
+            CLIPPrinter.red(msg)
 
 def c_tool_string(string:str, folder_path:str = None, should_print:bool = False):
     "returns a dictionary with keys as file_paths and value the number of times the string was found in that file"\
@@ -71,8 +72,7 @@ def save_folder_path(folder_path:str):
     SaveFolderArgs(folder_path=folder_path)
     if not exists(folder_path):
         raise ValueError(f"folder_path {folder_path} doesn't exist!")
-    if folder_path[-1] != '/':
-        folder_path += '/'
+    folder_path = dirname(folder_path)
     with open(PROJECTS_FOLDER, 'w', encoding='utf-8') as f:
         f.write(folder_path)
     print(f'New folder set: {folder_path}!')

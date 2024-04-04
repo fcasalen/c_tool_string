@@ -6,7 +6,7 @@ version = "0.1"
 setup(
     name=name,
     version=version,
-    license="Proprietary",
+    license="GNU General Public License",
     author="fcasalen",
     author_email="fcasalen@gmail.com",
     description="check for strings in py files in a directory. In CLI is possible to check in a given directory or in the current_directory",
