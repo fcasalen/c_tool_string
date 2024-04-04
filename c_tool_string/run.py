@@ -78,7 +78,7 @@ def save_folder_path(folder_path:str):
     print(f'New folder set: {folder_path}!')
 
 def cli():
-    main_path = ''
+    main_path = None
     if exists(PROJECTS_FOLDER):
         with open(PROJECTS_FOLDER, 'r', encoding='utf-8') as f:
             main_path = f.read() 
@@ -98,11 +98,14 @@ def cli():
     else:
         projeto = main_path
     if args.string:
-        c_tool_string(
-            string=args.string,
-            folder_path=projeto,
-            should_print=True
-        )
+        if not projeto:
+            print('no folder was set yet! using current working folder...')
+        else:
+            c_tool_string(
+                string=args.string,
+                folder_path=projeto,
+                should_print=True
+            )
 
 if __name__ == '__main__':
     cli()
