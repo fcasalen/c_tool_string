@@ -20,9 +20,13 @@ class Printer:
     def __init__(self, should_print:bool) -> None:
         self.should_print=should_print
         
-    def printa(self, msg:str):
+    def print_red(self, msg:str):
         if self.should_print:
             CLIPPrinter.red(msg)
+
+    def printa(self, msg:str):
+        if self.should_print:
+            print(msg)
 
 def c_tool_string(string:str, folder_path:str = None, should_print:bool = False):
     "returns a dictionary with keys as file_paths and value the number of times the string was found in that file"\
@@ -61,7 +65,7 @@ def c_tool_string(string:str, folder_path:str = None, should_print:bool = False)
         total = 0
         for file, count in found.items():
             if count:
-                printer.printa(f'{file}: Found {count} times')
+                printer.print_red(f'{file}: Found {count} times')
             else:
                 printer.printa(f'{file}: NOT FOUND')
             total += count
