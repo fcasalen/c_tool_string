@@ -5,6 +5,7 @@ from re import findall, escape
 from argparse import ArgumentParser
 from pydantic import BaseModel
 from cli_pprinter import CLIPPrinter
+from file_handler import FileHandler
 
 PROJECTS_FOLDER = join(dirname(__file__), 'projects_folder.txt')
 
@@ -48,8 +49,7 @@ def c_tool_string(string:str, folder_path:str = None, should_print:bool = False)
     found = {}
     for file in file_paths:
         printer.printa(f"Checking file {file}")
-        with open(file, 'r', encoding = 'utf-8') as f:
-            data = f.read()
+        data = FileHandler.load(file_paths=file, load_first_value=True)
         count = len(findall(
             pattern = escape(string),
             string = data
@@ -78,15 +78,13 @@ def save_folder_path(folder_path:str):
         raise ValueError(f"folder_path {folder_path} doesn't exist!")
     if not isdir(folder_path):
         raise ValueError(f'folder_path {folder_path} is not a directory.')
-    with open(PROJECTS_FOLDER, 'w', encoding='utf-8') as f:
-        f.write(folder_path)
+    FileHandler.write({PROJECTS_FOLDER: folder_path})
     print(f'New folder set: {folder_path}!')
 
 def cli():
     main_path = None
     if exists(PROJECTS_FOLDER):
-        with open(PROJECTS_FOLDER, 'r', encoding='utf-8') as f:
-            main_path = f.read() 
+        main_path = FileHandler.load(file_paths=PROJECTS_FOLDER, load_first_value=True)
     parser = ArgumentParser(description="A script that processes a file.")
     parser.add_argument("string", nargs="?", help="String to search for in files")
     parser.add_argument("--folder", "-f", action="store_true", help="Path to the folder to search in")
