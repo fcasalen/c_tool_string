@@ -17,8 +17,8 @@ def test_c_tool():
         folder_path=folder_path
     ) == {
         join(folder_path, '__init__.py'): 0,
-        join(folder_path, 'run.py'): 39,
-        join(folder_path, 'run_test.py'): 18
+        join(folder_path, 'run.py'): 41,
+        join(folder_path, 'run_test.py'): 28
     }
     assert c_tool_string(
         string='.get',
@@ -27,4 +27,21 @@ def test_c_tool():
         join(folder_path, '__init__.py'): 0,
         join(folder_path, 'run.py'): 0,
         join(folder_path, 'run_test.py'): 1
+    }
+    assert c_tool_string(
+        string='ctoolstringargs',
+        folder_path=folder_path
+    ) == {
+        join(folder_path, '__init__.py'): 0,
+        join(folder_path, 'run.py'): 2,
+        join(folder_path, 'run_test.py'): 2
+    }
+    assert c_tool_string(
+        string='ctoolstringargs',
+        folder_path=folder_path,
+        case_sensitive=True
+    ) == {
+        join(folder_path, '__init__.py'): 0,
+        join(folder_path, 'run.py'): 0,
+        join(folder_path, 'run_test.py'): 2
     }
