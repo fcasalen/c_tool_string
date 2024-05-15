@@ -54,7 +54,7 @@ def c_tool_string(string:str, folder_path:str = None, should_print:bool = False,
        string = string.lower() 
     for file in file_paths:
         printer.printa(f"Checking file {file}")
-        data = FileHandler.load(file_paths=file, load_first_value=True)
+        data = FileHandler.load(file_paths=file, load_first_value=True, progress_bar=False)
         if not dont_remove_punctuation_accents:
             data = unidecode(data)
         if not case_sensitive:
@@ -87,13 +87,13 @@ def save_folder_path(folder_path:str):
         raise ValueError(f"folder_path {folder_path} doesn't exist!")
     if not isdir(folder_path):
         raise ValueError(f'folder_path {folder_path} is not a directory.')
-    FileHandler.write({PROJECTS_FOLDER: folder_path})
+    FileHandler.write({PROJECTS_FOLDER: folder_path}, progress_bar=False)
     print(f'New folder set: {folder_path}!')
 
 def cli():
     main_path = None
     if exists(PROJECTS_FOLDER):
-        main_path = FileHandler.load(file_paths=PROJECTS_FOLDER, load_first_value=True)
+        main_path = FileHandler.load(file_paths=PROJECTS_FOLDER, load_first_value=True, progress_bar=False)
     parser = ArgumentParser(description="A script that processes a file.")
     parser.add_argument("string", nargs="?", help="String to search for in files")
     parser.add_argument("-f", action="store_true", help="Path to the folder to search in")

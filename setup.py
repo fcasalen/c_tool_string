@@ -1,7 +1,7 @@
 from setuptools import setup, find_packages
 
 name = "c_tool_string"
-version = "0.1.2"
+version = "0.1.3"
 
 setup(
     name=name,
