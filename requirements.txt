@@ -1,3 +1,4 @@
 pydantic
 cli_pprinter
 file_handler
+unidecode
