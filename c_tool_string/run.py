@@ -11,18 +11,16 @@ from unidecode import unidecode
 class CToolStringArgs(BaseModel):
     string:str
     folder_path:str|None
-    should_print:bool
 
 class SaveFolderArgs(BaseModel):
     folder_path:str
 
-def c_tool_string(string:str, folder_path:str = None, should_print:bool = False, case_sensitive:bool = False, dont_remove_punctuation_accents:bool = False):
+def c_tool_string(string:str, folder_path:str = None, case_sensitive:bool = False, dont_remove_punctuation_accents:bool = False):
     "returns a dictionary with keys as file_paths and value the number of times the string was found in that file"\
-    "\n\nif `folder_path` is None, will use current working folder. if `should_print`, will print the results during execution"
+    "\n\nif `folder_path` is None, will use current working folder."
     CToolStringArgs(
         string=string,
         folder_path=folder_path,
-        should_print=should_print
     )
     if folder_path is None:
         folder_path = getcwd()
@@ -75,7 +73,6 @@ def cli():
     c_tool_string(
         string=args.string,
         folder_path=args.f,
-        should_print=True,
         case_sensitive=args.cs,
         dont_remove_punctuation_accents=args.drpa
     )
