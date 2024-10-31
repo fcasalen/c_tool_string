@@ -17,7 +17,7 @@ def test_c_tool():
         folder_path=folder_path
     ) == {
         join(folder_path, '__init__.py'): 0,
-        join(folder_path, 'run.py'): 41,
+        join(folder_path, 'run.py'): 21,
         join(folder_path, 'run_test.py'): 28
     }
     assert c_tool_string(
