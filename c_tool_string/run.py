@@ -38,7 +38,7 @@ def c_tool_string(string:str, folder_path:str = None, should_print:bool = False,
     if not case_sensitive:
        string = string.lower() 
     for file in file_paths:
-        CLIPPrinter.white(f"Checking file {file}")
+        print(f"Checking file {file}")
         data = FileHandler.load(file_paths=file, load_first_value=True, progress_bar=False)
         if not dont_remove_punctuation_accents:
             data = unidecode(data)
@@ -51,17 +51,16 @@ def c_tool_string(string:str, folder_path:str = None, should_print:bool = False,
         found[file] = 0
         if count:
             found[file] = count
-    CLIPPrinter.white('_'*100)
-    CLIPPrinter.white(f'\nRESULTS...')
+    CLIPPrinter.white(f'\nRESULTS')
     if not found:
         CLIPPrinter.yellow(f"The string {string} wasn't found in any.py file in {folder_path}")
     else:
         total = 0
         for file, count in found.items():
             if count:
-                CLIPPrinter.red(f'{file}: Found {count} times')
+                CLIPPrinter.red(f'{file}: Found {count} times', end='')
             else:
-                CLIPPrinter.white(f'{file}: NOT FOUND')
+                print(f'{file}: NOT FOUND')
             total += count
         CLIPPrinter.white_underline(f'\nTotal finds: {total}\n')
     return found
@@ -73,14 +72,9 @@ def cli():
     parser.add_argument('-cs', action="store_true", help='compare string considering case sensitivity')
     parser.add_argument('-drpa', action='store_true', help="don't remove punctuation and accents, so it will consider punctuation and accents when comparing strings")
     args = parser.parse_args()
-    if not args.f:
-        projeto = getcwd()
-    else:
-        projeto = args.f
-    CLIPPrinter.white(f'c_tool_string will search in folder {projeto}!')
     c_tool_string(
         string=args.string,
-        folder_path=projeto,
+        folder_path=args.f,
         should_print=True,
         case_sensitive=args.cs,
         dont_remove_punctuation_accents=args.drpa
