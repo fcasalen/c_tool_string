@@ -12,9 +12,6 @@ class CToolStringArgs(BaseModel):
     string:str
     folder_path:str|None
 
-class SaveFolderArgs(BaseModel):
-    folder_path:str
-
 def c_tool_string(string:str, folder_path:str = None, case_sensitive:bool = False, dont_remove_punctuation_accents:bool = False):
     "returns a dictionary with keys as file_paths and value the number of times the string was found in that file"\
     "\n\nif `folder_path` is None, will use current working folder."
