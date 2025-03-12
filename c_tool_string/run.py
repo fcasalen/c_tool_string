@@ -7,6 +7,7 @@ from pydantic import BaseModel
 from cli_pprinter import CLIPPrinter
 from file_handler import FileHandler
 from unidecode import unidecode
+from tqdm import tqdm
 
 class CToolStringArgs(BaseModel):
     string:str
@@ -23,17 +24,17 @@ def c_tool_string(string:str, folder_path:str = None, case_sensitive:bool = Fals
         folder_path = getcwd()
     if not exists(folder_path):
         raise ValueError(f"folder_path {folder_path} doesn't exist!")
-    CLIPPrinter.white(f'\nSEARCHING string {string} in {folder_path}...')
+    CLIPPrinter.green(f'\nSEARCHING string {string} in {folder_path}...')
     file_paths = [
         f for f in glob(f'{folder_path}/**/*', recursive=True) if isfile(f) and f[-3:] == '.py'
     ]
-    found = {}
+    files = {}
     if not dont_remove_punctuation_accents:
         string = unidecode(string)
     if not case_sensitive:
-       string = string.lower() 
-    for file in file_paths:
-        print(f"Checking file {file}")
+       string = string.lower()
+    total = 0
+    for file in tqdm(file_paths, desc='Files assessed', unit='file'):
         data = FileHandler.load(file_paths=file, load_first_value=True, progress_bar=False)
         if not dont_remove_punctuation_accents:
             data = unidecode(data)
@@ -43,22 +44,26 @@ def c_tool_string(string:str, folder_path:str = None, case_sensitive:bool = Fals
             pattern = escape(string),
             string = data
         ))
-        found[file] = 0
+        files[file] = 0
         if count:
-            found[file] = count
-    CLIPPrinter.white(f'\nRESULTS')
-    if not found:
-        CLIPPrinter.yellow(f"The string {string} wasn't found in any.py file in {folder_path}")
-    else:
-        total = 0
-        for file, count in found.items():
-            if count:
-                CLIPPrinter.red(f'{file}: Found {count} times', end='')
-            else:
-                print(f'{file}: NOT FOUND')
+            files[file] = count
             total += count
-        CLIPPrinter.white_underline(f'\nTotal finds: {total}\n')
-    return found
+    print()
+    CLIPPrinter.white(f'{"*"*46}RESULTS{"*"*46}')
+    CLIPPrinter.white_underline(f'Count of {string} found in each file:')
+    found = []
+    for file, count in files.items():
+        if count:
+            found.append(f'{file}: Found {count} times')
+            CLIPPrinter.red(f'{file}: Found {count} times', end='')
+        else:
+            print(f'{file}: NOT FOUND')
+    print()
+    CLIPPrinter.line_breaker('-')
+    CLIPPrinter.white_underline(f'Total finds: {total}:')
+    CLIPPrinter.red(f"\n".join(found))
+    CLIPPrinter.line_breaker()
+    return files
 
 def cli():
     parser = ArgumentParser(description="A script that search strings in py files ina given folder")

@@ -2,4 +2,5 @@ cli_pprinter
 file_handler
 pydantic
 setuptools
+tqdm
 unidecode
