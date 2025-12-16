@@ -9,7 +9,7 @@ c_tool_string -f folder
 # checking for "oi" string in current directory
 c_tool_string oi
 
-# checking for "oi" string in current folder but considering case sensitive and not removing accents and punctuation when comparing 
+# checking for "oi" string in current folder but considering case sensitive and not removing accents marks and punctuation when comparing
 c_tool_string oi -cs -drpa
 ```
 
@@ -22,6 +22,6 @@ from c_tool_string import c_tool_string
 # c_tool_string function has should_print argument. If true, will print the results
 c_tool_string(string="oi", folder_path="folder")
 
-# comparing considering case_sensitive and not removing accents and punctuation
-c_tool_string(string="oi", folder_path="folder", case_sensitive=True, dont_remove_punctuation_accents=True)
+# comparing considering case_sensitive and not removing accents marks and punctuation
+c_tool_string(string="oi", folder_path="folder", case_sensitive=True, dont_remove_punctuation_accents_marks=True)
 ```

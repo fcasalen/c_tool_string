@@ -4,3 +4,6 @@
 */dist/
 */build/
 *.tar.gz
+.vscode/
+__pycache__/
+.coverage
