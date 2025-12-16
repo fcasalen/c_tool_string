@@ -71,7 +71,7 @@ def c_tool_string(
     for file, count in files.items():
         if count:
             found.append(f"{file}: Found {count} times")
-            print(f"{file}: Found {count} times", end="")
+            print(f"{file}: Found {count} times")
         else:
             print(f"{file}: NOT FOUND")
     print()
